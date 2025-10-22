@@ -17,7 +17,7 @@ def generate_synthetic_dataset(num_nodes=10, timesteps=80, seed=42):
             spike = np.random.uniform(10, 35) if np.random.rand() < 0.01 else 0
             load = max(0.0, base + daily + noise + spike)
             active_sessions = max(1, int(round(load / 3.0 + np.random.normal(0,1))))
-            cpu = min(100, max(0, load + np.random.normal(0,4)))
+            cpu = min(100, max(0, load + np.random.normal(0,4))) #cpu usage between 0-100%
             mem = min(100, max(0, cpu * 0.6 + np.random.normal(0,3)))
             latency = max(1, 20 + (node * 0.6) + np.sin(t/12.0)*2 + np.random.normal(0,1))
             rows.append({
@@ -34,7 +34,7 @@ def generate_synthetic_dataset(num_nodes=10, timesteps=80, seed=42):
     df = df.fillna(method="bfill")
     return df
 
-def save_dataset_pdf(df, out_pdf_path="edge_dataset.pdf", sample_rows=30):
+def save_dataset_pdf(df, out_pdf_path="edge_dataset.pdf", sample_rows=25):
     os.makedirs(os.path.dirname(out_pdf_path) or ".", exist_ok=True)
     pp = PdfPages(out_pdf_path)
 
